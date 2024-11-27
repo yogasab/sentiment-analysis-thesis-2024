@@ -1,0 +1,330 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    #loadingOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparan hitam */
+        z-index: 1050;
+        /* Di atas elemen lainnya */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #loadingOverlay .loading-content {
+        text-align: center;
+        color: #fff;
+    }
+
+    td {
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: normal;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+{% load tz %}
+<!-- [ Main Content ] start -->
+<div class="pc-container">
+    <div class="pcoded-content">
+        <!-- [ Main Content ] start -->
+        <!-- <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">{{title}}</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="">Home</a></li>
+                            <li class="breadcrumb-item">{{title}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0 text-white">Crawling Data</h5>
+                            <!-- Modal -->
+                            <div class="modal fade" id="confirmationModal" tabindex="-1"
+                                aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmationModalLabel">Konfirmasi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>Apakah Anda yakin ingin melanjutkan proses crawling data?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Batal</button>
+                                            <button type="button" class="btn btn-primary"
+                                                id="confirmSubmit">Lanjutkan</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+
+                            <!-- Form Submit Crawling Data -->
+                            <form id="crawlingForm" method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <button type="button" class="btn btn-light text-primary" id="showModal">
+                                    <i class="fas fa-play me-2"></i> Crawl Data
+                                </button>
+                            </form>
+                            <!-- Form Submit Crawling Data -->
+
+                            <!-- Loading Indicator -->
+                            <div id="loadingOverlay" class="d-none">
+                                <div class="loading-content">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p>Proses crawling data sedang berlangsung, harap tunggu...</p>
+                                </div>
+                            </div>
+                            <!-- Loading Indicator -->
+
+                            <!-- Result Message -->
+                            <div id="toastContainer" class="position-fixed bottom-0 end-0 p-3">
+                                <div id="resultToast" class="toast" role="alert" aria-live="assertive"
+                                    aria-atomic="true">
+                                    <div class="toast-header">
+                                        <strong id="toastTitle" class="me-auto text-normal">Crawling Process</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div id="toastBody" class="toast-body">
+                                        <!-- Success or error message will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Result Message -->
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">
+                            Configure your crawling data by selecting a start and end date below.
+                            The selected date range will define the period for the data you want to search after the
+                            crawling is complete.
+                        </p>
+                        <form method="get" action="{% url 'crawling_search' %}?{{ request.GET.urlencode }}">
+                            <div class="row align-items-center">
+                                <!-- Start Date -->
+                                <div class="col-md-2 mb-3">
+                                    <label for="start-date" class="form-label"><strong>Start Date:</strong></label>
+                                    <input type="text" id="start-date" name="start_date"
+                                        class="form-control border-primary shadow-sm" placeholder="Select Start Date"
+                                        value="{{ start_date }}">
+                                </div>
+
+                                <!-- End Date -->
+                                <div class="col-md-2 mb-3">
+                                    <label for="end-date" class="form-label"><strong>End Date:</strong></label>
+                                    <input type="text" id="end-date" name="end_date"
+                                        class="form-control border-primary shadow-sm" placeholder="Select End Date"
+                                        value="{{ end_date }}">
+                                </div>
+
+                                <!-- Search Keyword -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="search-keyword" class="form-label"><strong>Search from
+                                            keyword:</strong></label>
+                                    <input type="text" id="search-keyword" name="search_keyword"
+                                        class="form-control border-primary shadow-sm" placeholder="Enter Search Keyword"
+                                        value="{{ search_keyword }}">
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-md-2 mb-3 mt-4">
+                                    <button type="submit" class="btn btn-success w-70">
+                                        <i class="fas fa-search me-2"></i> Search
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3 mt-4">
+                                    <a href="/crawling" class="btn btn-primary w-70">
+                                        <i class="fas fa-trash me-2"></i> Reset
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-body table-border-style">
+                        <div class="table-responsive">
+                            <table id="example" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Rating</th>
+                                        <th>Review</th>
+                                        <th>Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for application_review in application_reviews %}
+                                    <tr>
+                                        <td>{{ application_review.username }}</td>
+                                        <td>{{ application_review.score }}</td>
+                                        <td>{{ application_review.content }}</td>
+                                        <td>{{ application_review.created_at|localtime|date:"Y-m-d H:i:s" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6">No reviews found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pagination controls -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end p-4">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page=1&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}"
+                                    aria-label="First">
+                                    <span aria-hidden="true">&laquo; First</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page={{ page_obj.previous_page_number }}&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}"
+                                    aria-label="Previous">
+                                    <span aria-hidden="true">Previous</span>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% for page_num in page_obj.paginator.page_range %}
+                            {% if page_num > page_obj.number|add:-3 and page_num < page_obj.number|add:3 %} <li
+                                class="page-item {% if page_num == page_obj.number %}active{% endif %}">
+                                <a class="page-link"
+                                    href="?page={{ page_num }}&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}">
+                                    {{ page_num }}</a>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="?page={{ page_obj.next_page_number }}&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}"
+                                        aria-label="Next">
+                                        <span aria-hidden="true">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="?page={{ page_obj.paginator.num_pages }}&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}"
+                                        aria-label="Last">
+                                        <span aria-hidden="true">Last &raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/js/plugins/apexcharts.min.js"></script>
+<script src="/static/assets/js/pages/dashboard-sale.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr("#start-date", {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+        });
+        flatpickr("#end-date", {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+        });
+    });
+    document.getElementById('showModal').addEventListener('click', function () {
+        // Tampilkan modal konfirmasi
+        const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        confirmationModal.show();
+    });
+
+    document.getElementById('confirmSubmit').addEventListener('click', function () {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const confirmationModal = bootstrap.Modal.getInstance(document.getElementById('confirmationModal'));
+        const resultToast = new bootstrap.Toast(document.getElementById('resultToast'));
+        const toastBody = document.getElementById('toastBody');
+        const toastHeader = document.querySelector('.toast-header');
+
+        // Reset classes to default
+        toastHeader.classList.remove('bg-success', 'bg-danger'); // Remove any previous background classes
+
+        loadingOverlay.classList.remove('d-none');
+        confirmationModal.hide();
+
+        fetch("{% url 'crawling_start' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}),
+        })
+            .then(response => response.json())
+            .then(data => {
+                loadingOverlay.classList.add('d-none');
+                if (data.status === "success") {
+                    toastBody.innerHTML = `<p class="text-success">${data.message}</p>`;
+                    toastHeader.classList.add('bg-success');
+                } else {
+                    toastBody.innerHTML = `<p class="text-danger">${data.message}</p>`;
+                    toastHeader.classList.add('bg-danger');
+                }
+                resultToast.show();
+                setTimeout(() => {
+                    window.location.href = "{% url 'crawling' %}";
+                }, 1500);
+            })
+            .catch(error => {
+                loadingOverlay.classList.add('d-none');
+                toastBody.innerHTML = `<p class="text-danger">Terjadi kesalahan: ${error.message}</p>`;
+                toastHeader.classList.add('bg-danger');
+                resultToast.show();
+            });
+    });
+</script>
+
+{% endblock javascripts %}

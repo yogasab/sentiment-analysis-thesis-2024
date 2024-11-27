@@ -1,0 +1,23 @@
+<!-- [ Header ] start -->
+<header class="pc-header">
+    <div class="header-wrapper">
+        <div class="py-3">
+            <!-- Page Title with Icon -->
+            <div class="d-flex align-items-center">
+                <span class="text-primary fs-4 me-2">
+                    {% if title == 'Crawling' %}
+                    <i class="fas fa-globe"></i>
+                    {% elif title == 'Sentiment Classification' %}
+                    <i class="fas fa-comments"></i>
+                    {% elif title == 'Insight' %}
+                    <i class="fas fa-chart-pie"></i>
+                    {% endif %}
+                </span>
+                <div>
+                    <h2 class="m-0 fw-bold text-dark">{{ title }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- [ Header ] end -->

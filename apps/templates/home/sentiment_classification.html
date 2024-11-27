@@ -1,0 +1,707 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    #loadingOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparan hitam */
+        z-index: 1050;
+        /* Di atas elemen lainnya */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #loadingOverlay .loading-content {
+        text-align: center;
+        color: #fff;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- [ Main Content ] start -->
+<div class="pc-container">
+    <div class="pcoded-content">
+        <!-- [ Main Content ] start -->
+        <!-- <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">{{title}}</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="">Home</a></li>
+                            <li class="breadcrumb-item">{{title}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0 text-white">Sentiment Classification</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">
+                            Configure your by selecting a start and end date below.
+                            The selected date range will define the period for the data you want to search.
+                        </p>
+                        <form method="get" action="{% url 'sentiment_classification' %}?{{ request.GET.urlencode }}">
+                            <div class="row align-items-center">
+                                <!-- Start Date -->
+                                <div class="col-md-2 mb-3">
+                                    <label for="start-date" class="form-label"><strong>Start Date:</strong></label>
+                                    <input type="text" id="start-date" name="start_date"
+                                        class="form-control border-primary shadow-sm" placeholder="Select Start Date"
+                                        value="{{ start_date }}">
+                                </div>
+
+                                <!-- End Date -->
+                                <div class="col-md-2 mb-3">
+                                    <label for="end-date" class="form-label"><strong>End Date:</strong></label>
+                                    <input type="text" id="end-date" name="end_date"
+                                        class="form-control border-primary shadow-sm" placeholder="Select End Date"
+                                        value="{{ end_date }}">
+                                </div>
+
+                                <!-- Search Keyword -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="search-keyword" class="form-label"><strong>Search from
+                                            keyword:</strong></label>
+                                    <input type="text" id="search-keyword" name="search_keyword"
+                                        class="form-control border-primary shadow-sm" placeholder="Enter Search Keyword"
+                                        value="{{ search_keyword }}">
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-md-2 mb-3 mt-4">
+                                    <button type="submit" class="btn btn-success w-70">
+                                        <i class="fas fa-search me-2"></i> Search
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3 mt-4">
+                                    <a href="/sentiment-classification" class="btn btn-primary w-70">
+                                        <i class="fas fa-trash me-2"></i> Reset
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-body table-border-style">
+                        <div class="table-responsive">
+                            <table id="example" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Sentiment</th>
+                                        <th>Review</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for application_review in application_reviews %}
+                                    <tr>
+                                        <td>{{ application_review.username }}</td>
+                                        <td>{{ application_review.sentiment_content }}</td>
+                                        <td>{{ application_review.content }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6">No reviews found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pagination controls -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end p-4">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page=1&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}"
+                                    aria-label="First">
+                                    <span aria-hidden="true">&laquo; First</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page={{ page_obj.previous_page_number }}&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}"
+                                    aria-label="Previous">
+                                    <span aria-hidden="true">Previous</span>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% for page_num in page_obj.paginator.page_range %}
+                            {% if page_num > page_obj.number|add:-3 and page_num < page_obj.number|add:3 %} <li
+                                class="page-item {% if page_num == page_obj.number %}active{% endif %}">
+                                <a class="page-link"
+                                    href="?page={{ page_num }}&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}">
+                                    {{ page_num }}</a>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="?page={{ page_obj.next_page_number }}&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}"
+                                        aria-label="Next">
+                                        <span aria-hidden="true">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="?page={{ page_obj.paginator.num_pages }}&start_date={{ start_date }}&end_date={{ end_date }}&search_keyword={{ search_keyword }}"
+                                        aria-label="Last">
+                                        <span aria-hidden="true">Last &raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- support-section start -->
+            <!-- <div class="col-xl-6 col-md-12">
+                <div class="card flat-card">
+                    <div class="row-table">
+                        <div class="col-sm-6 card-body br">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <i class="material-icons-two-tone text-primary mb-1">group</i>
+                                </div>
+                                <div class="col-sm-8 text-md-center">
+                                    <h5>1000</h5>
+                                    <span>Customers</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 d-none d-md-table-cell d-lg-table-cell d-xl-table-cell card-body br">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <i class="material-icons-two-tone text-primary mb-1">language</i>
+                                </div>
+                                <div class="col-sm-8 text-md-center">
+                                    <h5>$1252</h5>
+                                    <span>Revenue</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <i class="material-icons-two-tone text-primary mb-1">unarchive</i>
+                                </div>
+                                <div class="col-sm-8 text-md-center">
+                                    <h5>600</h5>
+                                    <span>Growth</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-table">
+                        <div class="col-sm-6 card-body br">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <i class="material-icons-two-tone text-primary mb-1">swap_horizontal_circle</i>
+                                </div>
+                                <div class="col-sm-8 text-md-center">
+                                    <h5>3550</h5>
+                                    <span>Returns</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 d-none d-md-table-cell d-lg-table-cell d-xl-table-cell card-body br">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <i class="material-icons-two-tone text-primary mb-1">cloud_download</i>
+                                </div>
+                                <div class="col-sm-8 text-md-center">
+                                    <h5>3550</h5>
+                                    <span>Downloads</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <i class="material-icons-two-tone text-primary mb-1">shopping_cart</i>
+                                </div>
+                                <div class="col-sm-8 text-md-center">
+                                    <h5>100%</h5>
+                                    <span>Order</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card support-bar overflow-hidden">
+                            <div class="card-body pb-0">
+                                <h2 class="m-0">53.94%</h2>
+                                <span class="text-primary">Conversion Rate</span>
+                                <p class="mb-3 mt-3">Number of conversions divided by the total visitors. </p>
+                            </div>
+                            <div id="support-chart"></div>
+                            <div class="card-footer border-0 bg-primary text-white background-pattern-white">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <h4 class="m-0 text-white">10</h4>
+                                        <span>2018</span>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="m-0 text-white">15</h4>
+                                        <span>2017</span>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="m-0 text-white">13</h4>
+                                        <span>2016</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card support-bar overflow-hidden">
+                            <div class="card-body pb-0">
+                                <h2 class="m-0">1432</h2>
+                                <span class="text-primary">Order delivered</span>
+                                <p class="mb-3 mt-3">Total number of order delivered in this month.</p>
+                            </div>
+                            <div class="card-footer border-0">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <h4 class="m-0">130</h4>
+                                        <span>May</span>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="m-0">251</h4>
+                                        <span>June</span>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="m-0 ">235</h4>
+                                        <span>July</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="support-chart1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Department wise monthly sales report</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row pb-2">
+                            <div class="col-auto m-b-10">
+                                <h3 class="mb-1">$21,356.46</h3>
+                                <span>Total Sales</span>
+                            </div>
+                            <div class="col-auto m-b-10">
+                                <h3 class="mb-1">$1935.6</h3>
+                                <span>Average</span>
+                            </div>
+                        </div>
+                        <div id="account-chart"></div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- support-section end -->
+            <!-- customer-section start -->
+            <!-- <div class="col-xl-6 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h6>Customer Satisfaction</h6>
+                        <span>It takes continuous effort to maintain high customer satisfaction levels Internal and
+                            external.</span>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col">
+                                <div id="satisfaction-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card table-card">
+                    <div class="card-header">
+                        <h5>New Products</h5>
+                    </div>
+                    <div class="pro-scroll" style="height:255px;position:relative;">
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Image</th>
+                                            <th>Status</th>
+                                            <th>Price</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>HeadPhone</td>
+                                            <td><img src="/static/assets/images/widget/p1.jpg" alt="" class="img-20">
+                                            </td>
+                                            <td>
+                                                <div><label class="badge bg-light-warning">Pending</label></div>
+                                            </td>
+                                            <td>$10</td>
+                                            <td><a href="#!"><i
+                                                        class="icon feather icon-edit f-16  text-success"></i></a><a
+                                                    href="#!"><i
+                                                        class="feather icon-trash-2 ms-3 f-16 text-danger"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Iphone 6</td>
+                                            <td><img src="/static/assets/images/widget/p2.jpg" alt="" class="img-20">
+                                            </td>
+                                            <td>
+                                                <div><label class="badge bg-light-danger">Cancel</label></div>
+                                            </td>
+                                            <td>$20</td>
+                                            <td><a href="#!"><i
+                                                        class="icon feather icon-edit f-16  text-success"></i></a><a
+                                                    href="#!"><i
+                                                        class="feather icon-trash-2 ms-3 f-16 text-danger"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jacket</td>
+                                            <td><img src="/static/assets/images/widget/p3.jpg" alt="" class="img-20">
+                                            </td>
+                                            <td>
+                                                <div><label class="badge bg-light-success">Success</label></div>
+                                            </td>
+                                            <td>$35</td>
+                                            <td><a href="#!"><i
+                                                        class="icon feather icon-edit f-16 text-success"></i></a><a
+                                                    href="#!"><i
+                                                        class="feather icon-trash-2 ms-3 f-16 text-danger"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sofa</td>
+                                            <td><img src="/static/assets/images/widget/p4.jpg" alt="" class="img-20">
+                                            </td>
+                                            <td>
+                                                <div><label class="badge bg-light-danger">Cancel</label></div>
+                                            </td>
+                                            <td>$85</td>
+                                            <td><a href="#!"><i
+                                                        class="icon feather icon-edit f-16 text-success"></i></a><a
+                                                    href="#!"><i
+                                                        class="feather icon-trash-2 ms-3 f-16 text-danger"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Iphone 6</td>
+                                            <td><img src="/static/assets/images/widget/p2.jpg" alt="" class="img-20">
+                                            </td>
+                                            <td>
+                                                <div><label class="badge bg-light-success">Success</label></div>
+                                            </td>
+                                            <td>$20</td>
+                                            <td><a href="#!"><i
+                                                        class="icon feather icon-edit f-16 text-success"></i></a><a
+                                                    href="#!"><i
+                                                        class="feather icon-trash-2 ms-3 f-16 text-danger"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>HeadPhone</td>
+                                            <td><img src="/static/assets/images/widget/p1.jpg" alt="" class="img-20">
+                                            </td>
+                                            <td>
+                                                <div><label class="badge bg-light-warning">Pending</label></div>
+                                            </td>
+                                            <td>$50</td>
+                                            <td><a href="#!"><i
+                                                        class="icon feather icon-edit f-16 text-success"></i></a><a
+                                                    href="#!"><i
+                                                        class="feather icon-trash-2 ms-3 f-16 text-danger"></i></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Iphone 6</td>
+                                            <td><img src="/static/assets/images/widget/p2.jpg" alt="" class="img-20">
+                                            </td>
+                                            <td>
+                                                <div><label class="badge bg-light-danger">Cancel</label></div>
+                                            </td>
+                                            <td>$30</td>
+                                            <td><a href="#!"><i
+                                                        class="icon feather icon-edit f-16 text-success"></i></a><a
+                                                    href="#!"><i
+                                                        class="feather icon-trash-2 ms-3 f-16 text-danger"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-12">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card prod-p-card background-pattern">
+                            <div class="card-body">
+                                <div class="row align-items-center m-b-0">
+                                    <div class="col">
+                                        <h6 class="m-b-5">Total Profit</h6>
+                                        <h3 class="m-b-0">$1,783</h3>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="material-icons-two-tone text-primary">card_giftcard</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card prod-p-card bg-primary background-pattern-white">
+                            <div class="card-body">
+                                <div class="row align-items-center m-b-0">
+                                    <div class="col">
+                                        <h6 class="m-b-5 text-white">Total Orders</h6>
+                                        <h3 class="m-b-0 text-white">15,830</h3>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="material-icons-two-tone text-white">local_mall</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card prod-p-card bg-primary background-pattern-white">
+                            <div class="card-body">
+                                <div class="row align-items-center m-b-0">
+                                    <div class="col">
+                                        <h6 class="m-b-5 text-white">Average Price</h6>
+                                        <h3 class="m-b-0 text-white">$6,780</h3>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="material-icons-two-tone text-white">monetization_on</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card prod-p-card background-pattern">
+                            <div class="card-body">
+                                <div class="row align-items-center m-b-0">
+                                    <div class="col">
+                                        <h6 class="m-b-5">Product Sold</h6>
+                                        <h3 class="m-b-0">6,784</h3>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="material-icons-two-tone text-primary">local_offer</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card feed-card">
+                    <div class="card-header">
+                        <h5>Feeds</h5>
+                    </div>
+                    <div class="feed-scroll" style="height:385px;position:relative;">
+                        <div class="card-body">
+                            <div class="row m-b-25 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="bell" class="bg-light-primary feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">You have 3 pending tasks. <span
+                                                class="text-muted float-end f-14">Just Now</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row m-b-25 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="shopping-cart"
+                                        class="bg-light-danger feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">New order received <span class="text-muted float-end f-14">30
+                                                min ago</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row m-b-25 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="file-text"
+                                        class="bg-light-success feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">You have 3 pending tasks. <span
+                                                class="text-muted float-end f-14">Just Now</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row m-b-25 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="bell" class="bg-light-primary feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">You have 4 tasks Done. <span
+                                                class="text-muted float-end f-14">1 hours ago</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row m-b-25 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="file-text"
+                                        class="bg-light-success feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">You have 2 pending tasks. <span
+                                                class="text-muted float-end f-14">Just Now</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row m-b-25 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="shopping-cart"
+                                        class="bg-light-danger feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">New order received <span class="text-muted float-end f-14">4
+                                                hours ago</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row m-b-25 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="shopping-cart"
+                                        class="bg-light-danger feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">New order Done <span class="text-muted float-end f-14">Just
+                                                Now</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row m-b-25 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="file-text"
+                                        class="bg-light-success feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">You have 5 pending tasks. <span
+                                                class="text-muted float-end f-14">5 hours ago</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row m-b-0 align-items-center">
+                                <div class="col-auto p-r-0">
+                                    <i data-feather="bell" class="bg-light-primary feed-icon p-2 wid-30 hei-30"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="#!">
+                                        <h6 class="m-b-5">You have 4 tasks Done. <span
+                                                class="text-muted float-end f-14">2 hours ago</span></h6>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- customer-section end -->
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</div>
+<!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/js/plugins/apexcharts.min.js"></script>
+<script src="/static/assets/js/pages/dashboard-sale.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr("#start-date", {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+        });
+        flatpickr("#end-date", {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+        });
+    });
+    document.getElementById('showModal').addEventListener('click', function () {
+        // Tampilkan modal konfirmasi
+        const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+        confirmationModal.show();
+    });
+
+    document.getElementById('confirmSubmit').addEventListener('click', function () {
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const confirmationModal = bootstrap.Modal.getInstance(document.getElementById('confirmationModal'));
+        loadingOverlay.classList.remove('d-none');
+        confirmationModal.hide();
+        fetch("{% url 'crawling_start' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}),
+        })
+            .then(response => response.json())
+            .then(data => {
+                loadingOverlay.classList.add('d-none');
+                const resultMessage = document.getElementById('resultMessage');
+                resultMessage.classList.remove('d-none');
+                if (data.status === "success") {
+                    resultMessage.innerHTML = `<p class="text-success">${data.message}</p>`;
+                } else {
+                    resultMessage.innerHTML = `<p class="text-danger">${data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                loadingOverlay.classList.add('d-none');
+                const resultMessage = document.getElementById('resultMessage');
+                resultMessage.classList.remove('d-none');
+                resultMessage.innerHTML = `<p class="text-danger">Terjadi kesalahan: ${error.message}</p>`;
+            });
+    });
+</script>
+
+{% endblock javascripts %}
