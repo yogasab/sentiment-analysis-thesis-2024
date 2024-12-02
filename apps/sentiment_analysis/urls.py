@@ -7,7 +7,7 @@ urlpatterns = [
     path('crawling/search', views.search_crawling, name='crawling_search'),
     path('crawling/start', views.post_crawling_start, name='crawling_start'),
     path('sentiment-classification', views.view_sentiment_classification, name='sentiment_classification'),
-    path('sentiment-classification/search', views.search_sentiment_classification, name='sentiment_classification'),
+    path('sentiment-classification/search', views.search_sentiment_classification, name='sentiment_classification_search'),
     path('insight', views.get_insight, name='insight'),
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),

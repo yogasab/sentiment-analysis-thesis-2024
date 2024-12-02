@@ -29,7 +29,7 @@
 {% endblock stylesheets %}
 
 {% block content %}
-
+{% load tz %}
 <!-- [ Main Content ] start -->
 <div class="pc-container">
     <div class="pcoded-content">
@@ -57,10 +57,11 @@
                     </div>
                     <div class="card-body">
                         <p class="text-muted">
-                            Configure your by selecting a start and end date below.
-                            The selected date range will define the period for the data you want to search.
+                            Configure your data by selecting a start date, end date and keyword below.
+                            The selected filter will define the result for the data you want to search.
                         </p>
-                        <form method="get" action="{% url 'sentiment_classification' %}?{{ request.GET.urlencode }}">
+                        <form method="get"
+                            action="{% url 'sentiment_classification_search' %}?{{ request.GET.urlencode }}">
                             <div class="row align-items-center">
                                 <!-- Start Date -->
                                 <div class="col-md-2 mb-3">
@@ -95,7 +96,7 @@
                                 </div>
                                 <div class="col-md-2 mb-3 mt-4">
                                     <a href="/sentiment-classification" class="btn btn-primary w-70">
-                                        <i class="fas fa-trash me-2"></i> Reset
+                                        <i class="fas fa-trash me-2"></i> Reset filter
                                     </a>
                                 </div>
                             </div>
@@ -107,17 +108,21 @@
                             <table id="example" class="table">
                                 <thead>
                                     <tr>
+                                        <th>Review ID</th>
                                         <th>Username</th>
                                         <th>Sentiment</th>
                                         <th>Review</th>
+                                        <th>Created</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for application_review in application_reviews %}
                                     <tr>
+                                        <td>{{ application_review.review_id }}</td>
                                         <td>{{ application_review.username }}</td>
                                         <td>{{ application_review.sentiment_content }}</td>
                                         <td>{{ application_review.content }}</td>
+                                        <td>{{ application_review.created_at|localtime|date:"Y-m-d H:i:s" }}</td>
                                     </tr>
                                     {% empty %}
                                     <tr>

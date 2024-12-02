@@ -89,7 +89,7 @@
                                 {% csrf_token %}
                                 {{ form.as_p }}
                                 <button type="button" class="btn btn-light text-primary" id="showModal">
-                                    <i class="fas fa-play me-2"></i> Crawl Data
+                                    <i class="fas fa-globe me-2"></i> Crawl & Analyze Data
                                 </button>
                             </form>
                             <!-- Form Submit Crawling Data -->
@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="col-md-2 mb-3 mt-4">
                                     <a href="/crawling" class="btn btn-primary w-70">
-                                        <i class="fas fa-trash me-2"></i> Reset
+                                        <i class="fas fa-trash me-2"></i> Reset filter
                                     </a>
                                 </div>
                             </div>
@@ -174,6 +174,7 @@
                             <table id="example" class="table">
                                 <thead>
                                     <tr>
+                                        <th>Review ID</th>
                                         <th>Username</th>
                                         <th>Rating</th>
                                         <th>Review</th>
@@ -183,6 +184,7 @@
                                 <tbody>
                                     {% for application_review in application_reviews %}
                                     <tr>
+                                        <td>{{ application_review.review_id }}</td>
                                         <td>{{ application_review.username }}</td>
                                         <td>{{ application_review.score }}</td>
                                         <td>{{ application_review.content }}</td>
@@ -310,17 +312,17 @@
                     toastBody.innerHTML = `<p class="text-success">${data.message}</p>`;
                     toastHeader.classList.add('bg-success');
                 } else {
-                    toastBody.innerHTML = `<p class="text-danger">${data.message}</p>`;
+                    toastBody.innerHTML = `<p class="text-danger">Terjadi kesalahan: Gagal crawling data</p>`;
                     toastHeader.classList.add('bg-danger');
                 }
                 resultToast.show();
                 setTimeout(() => {
-                    window.location.href = "{% url 'crawling' %}";
+                    window.location.href = "{% url 'sentiment_classification' %}";
                 }, 1500);
             })
             .catch(error => {
                 loadingOverlay.classList.add('d-none');
-                toastBody.innerHTML = `<p class="text-danger">Terjadi kesalahan: ${error.message}</p>`;
+                toastBody.innerHTML = `<p class="text-danger">Terjadi kesalahan: Gagal crawling data</p>`;
                 toastHeader.classList.add('bg-danger');
                 resultToast.show();
             });

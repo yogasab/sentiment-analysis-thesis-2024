@@ -9,7 +9,7 @@
     .chart-heading h5 {
         font-size: 1.25rem;
         font-weight: 500;
-        margin-bottom: 10px;
+        margin-bottom: 1px;
         color: #333;
     }
 
@@ -20,159 +20,177 @@
     }
 
     .card-body {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+    }
+
+    .pie-chart-container {
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .summary-text {
+        margin-top: 15px;
+        text-align: center;
+        font-style: italic;
+    }
+
+    .chart-container {
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+        display: inline-block;
+        padding: 10px;
     }
 </style>
 {% endblock stylesheets %}
 
 {% block content %}
-
 <!-- [ Main Content ] start -->
 <div class="pc-container">
     <div class="pcoded-content">
-        <!-- [ Main Content ] start -->
-        <!-- <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10">{{title}}</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="">Home</a></li>
-                            <li class="breadcrumb-item">{{title}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0 text-white">Insight</h5>
+                        <h3 class="mb-0 text-white">Insight</h3>
                     </div>
-
-                    <div class="card-body">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>2024 - Word Analysis</h4>
-                            </div>
-                            <div class="card-body">
-                                <!-- Heading for Positive Words -->
-                                <div class="chart-heading">
-                                    <h5>Top 4 Positive Words in 2024</h5>
-                                </div>
-                                <div style="width:100%; max-width:600px; margin:auto;">
-                                    <canvas id="pie-chart-positive-2024"></canvas>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <!-- Heading for Negative Words -->
-                                <div class="chart-heading">
-                                    <h5>Top 4 Negative Words in 2024</h5>
-                                </div>
-                                <div style="width:100%; max-width:600px; margin:auto;">
-                                    <canvas id="pie-chart-negative-2024"></canvas>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="charts-container">
+                        <!-- Dynamic charts will be inserted here -->
                     </div>
-
-                    <div class="card-body">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>2023 - Word Analysis</h4>
-                            </div>
-                            <div class="card-body">
-                                <!-- Heading for Positive Words -->
-                                <div class="chart-heading">
-                                    <h5>Top 4 Positive Words in 2023</h5>
-                                </div>
-                                <div style="width:100%; max-width:600px; margin:auto;">
-                                    <canvas id="pie-chart-positive-2023"></canvas>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <!-- Heading for Negative Words -->
-                                <div class="chart-heading">
-                                    <h5>Top 4 Negative Words in 2023</h5>
-                                </div>
-                                <div style="width:100%; max-width:600px; margin:auto;">
-                                    <canvas id="pie-chart-negative-2023"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>2022 - Word Analysis</h4>
-                            </div>
-                            <div class="card-body">
-                                <!-- Heading for Positive Words -->
-                                <div class="chart-heading">
-                                    <h5>Top 4 Positive Words in 2022</h5>
-                                </div>
-                                <div style="width:100%; max-width:600px; margin:auto;">
-                                    <canvas id="pie-chart-positive-2022"></canvas>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <!-- Heading for Negative Words -->
-                                <div class="chart-heading">
-                                    <h5>Top 4 Negative Words in 2022</h5>
-                                </div>
-                                <div style="width:100%; max-width:600px; margin:auto;">
-                                    <canvas id="pie-chart-negative-2022"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
-
         </div>
-        <!-- [ Main Content ] end -->
     </div>
 </div>
 <!-- [ Main Content ] end -->
-
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
+<!-- Specific Page JS goes HERE -->
 {% block javascripts %}
-
 <script src="/static/assets/js/plugins/apexcharts.min.js"></script>
-<script src="/static/assets/js/pages/chart-apex.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    const data = {
-        labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4'],
-        datasets: [{
-            data: [30, 20, 25, 25], // Proportional data
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-            hoverOffset: 4
-        }]
-    };
-    const pieCharts = [
-        'pie-chart-positive-2024',
-        'pie-chart-negative-2024',
-        'pie-chart-positive-2023',
-        'pie-chart-negative-2023',
-        'pie-chart-positive-2022',
-        'pie-chart-negative-2022',
-    ];
-    pieCharts.forEach(function (id) {
-        const ctx = document.getElementById(id).getContext('2d');
-
+    const sentimentData = JSON.parse('{{ application_reviews_data|safe }}');
+    const chartsContainer = document.getElementById('charts-container');
+    Object.keys(sentimentData).sort((a, b) => b - a).forEach(year => {
+        const sentiments = sentimentData[year];
+        const total = sentiments.positive + sentiments.negative;
+        const positivePercentage = total > 0 ? (sentiments.positive / total) * 100 : 0;
+        let summaryText = `Sebanyak ${positivePercentage.toFixed(1)}% ulasan di tahun ${year} adalah positif.`;
+        const cardHtml = `
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-header bg-primary pb-1">
+                        <h4 class="text-white">${year} - Sentiment Overview</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-heading">
+                            <h5>Positive vs Negative Sentiments in ${year}</h5>
+                        </div>
+                        <div class="pie-chart-container">
+                            <div class="chart-container">
+                                <canvas id="pie-chart-${year}"></canvas>
+                            </div>
+                        </div>
+                        <div class="summary-text">
+                            <p>${summaryText}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        chartsContainer.insertAdjacentHTML('beforeend', cardHtml);
+        const chartData = {
+            labels: ['Positive', 'Negative'],
+            datasets: [{
+                data: [sentiments.positive, sentiments.negative],
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                hoverOffset: 10
+            }]
+        };
+        const ctx = document.getElementById(`pie-chart-${year}`).getContext('2d');
         new Chart(ctx, {
             type: 'pie',
-            data: data,
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+            }
+        });
+        const mostCommonPositiveWords = sentiments.most_common_positive;
+        const positiveWordLabels = mostCommonPositiveWords.map(word => word[0]);
+        const positiveWordCounts = mostCommonPositiveWords.map(word => word[1]);
+        const mostCommonNegativeWords = sentiments.most_common_negative;
+        const negativeWordLabels = mostCommonNegativeWords.map(word => word[0]);
+        const negativeWordCounts = mostCommonNegativeWords.map(word => word[1]);
+        const commonWordsHtml = `
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="chart-heading">
+                            <h5>Most Common Words in ${year}</h5>
+                        </div>
+                        <div class="pie-chart-container">
+                            <div class="chart-container">
+                                <canvas id="positive-word-chart-${year}"></canvas>
+                                <div class="summary-text">
+                                    <p>Most Common Positive Words</p>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="negative-word-chart-${year}"></canvas>
+                                <div class="summary-text">
+                                    <p>Most Common Negative Words</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        chartsContainer.insertAdjacentHTML('beforeend', commonWordsHtml);
+        const positiveWordChartData = {
+            labels: positiveWordLabels,
+            datasets: [{
+                data: positiveWordCounts,
+                backgroundColor: ['#FF9F40', '#36A2EB', '#FF6384', '#4BC0C0'],
+                hoverOffset: 10
+            }]
+        };
+        const positiveWordCtx = document.getElementById(`positive-word-chart-${year}`).getContext('2d');
+        new Chart(positiveWordCtx, {
+            type: 'pie',
+            data: positiveWordChartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+            }
+        });
+        const negativeWordChartData = {
+            labels: negativeWordLabels,
+            datasets: [{
+                data: negativeWordCounts,
+                backgroundColor: ['#FF9F40', '#FF6384', '#36A2EB', '#4BC0C0'],
+                hoverOffset: 10
+            }]
+        };
+        const negativeWordCtx = document.getElementById(`negative-word-chart-${year}`).getContext('2d');
+        new Chart(negativeWordCtx, {
+            type: 'pie',
+            data: negativeWordChartData,
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
@@ -185,5 +203,4 @@
         });
     });
 </script>
-
 {% endblock javascripts %}
