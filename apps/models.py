@@ -56,7 +56,7 @@ class ApplicationReview(models.Model):
         queryset = ApplicationReview.objects.all()
         if search_keyword != "":
             queryset = queryset.filter(
-                Q(username__icontains=search_keyword) | Q(content__icontains=search_keyword) | Q(review_id__icontains=search_keyword)
+                Q(username__icontains=search_keyword) | Q(content__icontains=search_keyword) | Q(review_id__icontains=search_keyword) | Q(sentiment_content__icontains=search_keyword) | Q(score__icontains=search_keyword)
             )
 
         if start_date is not None and end_date is not None:

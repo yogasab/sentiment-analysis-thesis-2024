@@ -75,6 +75,20 @@
 <script>
     const sentimentData = JSON.parse('{{ application_reviews_data|safe }}');
     const chartsContainer = document.getElementById('charts-container');
+    if (Object.keys(sentimentData).length === 0) {
+        chartsContainer.innerHTML = `
+            <div class="card">
+                <div class="card-header text-center">
+                    Data Not Available
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">No Sentiment Data Found</h5>
+                    <p class="card-text">We couldn't find any data for the selected date range. You can try adjusting the filters or start a new data collection process.</p>
+                    <a href="/crawling" class="btn btn-primary">Go to Crawling</a>
+                </div>
+            </div>
+        `;
+    }
     Object.keys(sentimentData).sort((a, b) => b - a).forEach(year => {
         const sentiments = sentimentData[year];
         const total = sentiments.positive + sentiments.negative;
