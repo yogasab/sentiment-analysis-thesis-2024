@@ -7,7 +7,7 @@ from nltk.stem import WordNetLemmatizer
 import joblib
 import os
 from django.conf import settings
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 import pandas as pd
 from google_play_scraper import app, Sort, reviews_all
 import numpy as np
@@ -16,6 +16,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from collections import Counter
 import string
+import re
 
 nltk.download('punkt_tab')
 nltk.download('stopwords')
@@ -23,7 +24,7 @@ class SentimentModel:
     def __init__(self):
         self.model = joblib.load(os.path.join(settings.BASE_DIR, 'sentiment_analysis_model', 'naive_bayes_model.pkl'))
         self.vectorizer = joblib.load(os.path.join(settings.BASE_DIR, 'sentiment_analysis_model', 'count_vectorizer.pkl'))
-        self.translator = Translator()
+        self.translator = GoogleTranslator(source='auto', target='en')
         self.lemmatizer = WordNetLemmatizer()
         self.stop_words = set(stopwords.words('english'))
 
@@ -45,15 +46,15 @@ class SentimentModel:
     def preprocess_text(self, my_df: pd.DataFrame):
         processed_texts = []
         content_eng_list = []  
+        print("Translating total of {} reviews...".format(len(my_df)))
         for index, row in my_df.iterrows():
             text = row['content']  
             if not text or text.strip() == "":
                 raise ValueError("Input text cannot be empty")
-            text = text.replace(" g ", " gak ").replace(" y ", " ya ")
+            text = text.replace(" g ", " gak ").replace(" y ", " ya ").replace("👍", " great ").replace("👎", " bad ")
             text = emoji.demojize(text)
             try:
-                time.sleep(0.3)  
-                translated = self.translator.translate(text, src='auto', dest='en').text
+                translated = self.translator.translate(text)
                 if not translated:  
                     raise ValueError("Translation returned empty result.")
             except Exception as e:
@@ -64,12 +65,13 @@ class SentimentModel:
             text = re.sub(r'[^\w\s]', '', translated)
             text = re.sub(r'(?<=\.)', ' ', text)
             text = text.replace("not ", "not_").replace("no ", "no_").replace("never ", "never_")\
-                       .replace("cant ", "can not_").replace("can't ", "can not_").replace("out alone", "out_alone")
+                       .replace("cant ", "can not_").replace("can't ", "can not_").replace("out alone", "out_alone").replace("couldnt ", "could not_").replace("couldn't ", "could not_").replace("can't ", "can not_")
             content_eng_list.append(text)
             tokens = word_tokenize(text)
             filtered_words = [word for word in tokens if word not in self.stop_words]
             lemmatized_words = [self.lemmatizer.lemmatize(word) for word in filtered_words]
             processed_texts.append(' '.join(lemmatized_words))
+            print(f"Translated {index + 1}/{len(my_df)} reviews")
         my_df['content_eng'] = content_eng_list
         return my_df, processed_texts 
 
@@ -83,7 +85,9 @@ class SentimentModel:
 
     def get_most_common_words(self, reviews_by_year):
         stop_words = set(stopwords.words('indonesian')) 
-        stop_words.update(['ya', 'ga', 'iya', 'y', 'g', 'ngga', 'tdk', 'gak', 'tdak', 'nya', 'yg', 'tp', 'tpi', 'tapi', 'sih', 'si', 'nih', 'nihh'])
+        stop_words.update([
+            'ya', 'ga', 'iya', 'y', 'g', 'ngga', 'tdk', 'gak', 'tdak', 'nya', 'yg', 'tp', 'tpi', 'tapi', 'sih', 'si', 'nih', 'nihh', 'aplikasi', 'opinia', 'banget', 'gk', 'trus', '...', '..', 'pas' , 'maksudnya', 'mohon', 'semoga', 'udah', 'kasih',
+        ])
         result = []  
         for year_data in reviews_by_year:
             year = year_data['year']

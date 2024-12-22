@@ -53,12 +53,12 @@
             <div class="col-md-12">
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0 text-white">Sentiment Classification</h5>
+                        <h3 class="mb-0 text-white">Klasifikasi Sentimen</h5>
                     </div>
                     <div class="card-body">
                         <p class="text-muted">
-                            Configure your data by selecting a start date, end date and keyword below.
-                            The selected filter will define the result for the data you want to search.
+                            Konfigurasikan data Anda dengan memilih tanggal mulai, tanggal akhir, dan kata kunci di
+                            bawah ini. Filter yang dipilih akan menentukan hasil untuk data yang ingin Anda cari.
                         </p>
                         <form method="get"
                             action="{% url 'sentiment_classification_search' %}?{{ request.GET.urlencode }}">
