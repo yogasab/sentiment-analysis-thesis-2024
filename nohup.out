@@ -1,0 +1,244 @@
+Watching for file changes with StatReloader
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+/root/projects/sentiment-analysis-thesis-2024/apps/sentiment_analysis/views.py:113: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'apps.models.ApplicationReview'> QuerySet.
+  paginator = Paginator(application_reviews, 10)
+[24/Dec/2024 16:56:32] "GET /sentiment-classification HTTP/1.1" 200 49463
+[24/Dec/2024 16:56:32] "GET /static/assets/fonts/feather.css HTTP/1.1" 200 13222
+[24/Dec/2024 16:56:32] "GET /static/assets/fonts/material.css HTTP/1.1" 200 537
+[24/Dec/2024 16:56:32] "GET /static/assets/fonts/fontawesome.css HTTP/1.1" 200 66034
+[24/Dec/2024 16:56:32] "GET /static/assets/js/vendor-all.js HTTP/1.1" 200 37901
+[24/Dec/2024 16:56:32] "GET /static/assets/js/plugins/bootstrap.min.js HTTP/1.1" 200 59219
+[24/Dec/2024 16:56:32] "GET /static/assets/js/plugins/feather.min.js HTTP/1.1" 200 75779
+[24/Dec/2024 16:56:32] "GET /static/assets/js/pcoded.js HTTP/1.1" 200 29145
+[24/Dec/2024 16:56:32] "GET /static/assets/js/pages/dashboard-sale.js HTTP/1.1" 200 6332
+[24/Dec/2024 16:56:32] "GET /static/assets/css/style.css HTTP/1.1" 200 326254
+[24/Dec/2024 16:56:33] "GET /static/assets/fonts/inter/Inter-Regular.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 16:56:33] "GET /static/assets/fonts/inter/Inter-Medium.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 16:56:33] "GET /static/assets/fonts/inter/Inter-SemiBold.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 16:56:33] "GET /static/assets/fonts/fontawesome/fa-solid-900.woff2 HTTP/1.1" 304 0
+[24/Dec/2024 16:56:33] "GET /static/assets/fonts/inter/Inter-Bold.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 16:56:33] "GET /static/assets/fonts/material/material.woff2 HTTP/1.1" 304 0
+[24/Dec/2024 16:56:33] "GET /static/assets/js/plugins/apexcharts.min.js HTTP/1.1" 200 485805
+[24/Dec/2024 16:56:46] "GET /sentiment-classification HTTP/1.1" 200 49463
+/root/projects/sentiment-analysis-thesis-2024/apps/sentiment_analysis/views.py:23: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'apps.models.ApplicationReview'> QuerySet.
+  paginator = Paginator(application_reviews, 10)
+[24/Dec/2024 16:56:47] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 16:56:51] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 16:56:53] "GET /sentiment-classification HTTP/1.1" 200 49463
+/root/projects/sentiment-analysis-thesis-2024/sentiment-analysis-thesis-2024/lib/python3.12/site-packages/sklearn/base.py:380: InconsistentVersionWarning: Trying to unpickle estimator MultinomialNB from version 1.5.2 when using version 1.6.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/root/projects/sentiment-analysis-thesis-2024/sentiment-analysis-thesis-2024/lib/python3.12/site-packages/sklearn/base.py:380: InconsistentVersionWarning: Trying to unpickle estimator TfidfTransformer from version 1.5.2 when using version 1.6.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/root/projects/sentiment-analysis-thesis-2024/sentiment-analysis-thesis-2024/lib/python3.12/site-packages/sklearn/base.py:380: InconsistentVersionWarning: Trying to unpickle estimator TfidfVectorizer from version 1.5.2 when using version 1.6.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+[24/Dec/2024 16:56:55] "GET /insight HTTP/1.1" 200 13433
+[24/Dec/2024 16:56:56] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 16:56:57] "GET /sentiment-classification HTTP/1.1" 200 49463
+[24/Dec/2024 16:57:24] "GET /sentiment-classification HTTP/1.1" 200 49463
+[24/Dec/2024 17:01:11] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 17:01:11] "GET /static/assets/images/emotion.svg HTTP/1.1" 200 29488
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 24, 2024 - 16:56:31
+Django version 5.1.4, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+[nltk_data] Downloading package wordnet to /root/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+/root/projects/sentiment-analysis-thesis-2024/sentiment-analysis-thesis-2024/lib/python3.12/site-packages/sklearn/base.py:380: InconsistentVersionWarning: Trying to unpickle estimator MultinomialNB from version 1.5.2 when using version 1.6.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/root/projects/sentiment-analysis-thesis-2024/sentiment-analysis-thesis-2024/lib/python3.12/site-packages/sklearn/base.py:380: InconsistentVersionWarning: Trying to unpickle estimator TfidfTransformer from version 1.5.2 when using version 1.6.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/root/projects/sentiment-analysis-thesis-2024/sentiment-analysis-thesis-2024/lib/python3.12/site-packages/sklearn/base.py:380: InconsistentVersionWarning: Trying to unpickle estimator TfidfVectorizer from version 1.5.2 when using version 1.6.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+[24/Dec/2024 17:38:23] "GET /insight HTTP/1.1" 200 13433
+[24/Dec/2024 17:38:23] "GET /static/assets/fonts/feather.css HTTP/1.1" 200 13222
+[24/Dec/2024 17:38:23] "GET /static/assets/fonts/material.css HTTP/1.1" 200 537
+[24/Dec/2024 17:38:23] "GET /static/assets/fonts/fontawesome.css HTTP/1.1" 200 66034
+[24/Dec/2024 17:38:23] "GET /static/assets/js/vendor-all.js HTTP/1.1" 200 37901
+[24/Dec/2024 17:38:23] "GET /static/assets/js/plugins/bootstrap.min.js HTTP/1.1" 200 59219
+[24/Dec/2024 17:38:23] "GET /static/assets/js/plugins/feather.min.js HTTP/1.1" 200 75779
+[24/Dec/2024 17:38:23] "GET /static/assets/js/pcoded.js HTTP/1.1" 200 29145
+[24/Dec/2024 17:38:23] "GET /static/assets/css/style.css HTTP/1.1" 200 326254
+[24/Dec/2024 17:38:23] "GET /static/assets/js/plugins/apexcharts.min.js HTTP/1.1" 200 485805
+/root/projects/sentiment-analysis-thesis-2024/apps/sentiment_analysis/views.py:23: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'apps.models.ApplicationReview'> QuerySet.
+  paginator = Paginator(application_reviews, 10)
+[24/Dec/2024 17:38:27] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 17:38:27] "GET /static/assets/js/pages/dashboard-sale.js HTTP/1.1" 200 6332
+[24/Dec/2024 17:40:06] code 400, message Bad request version ('zï\x98·AñýÚ4»\x8e\x04c2©\x00*::\x13\x01\x13\x02\x13\x03À,À+Ì©À0À/Ì¨À')
+[24/Dec/2024 17:40:06] You're accessing the development server over HTTPS, but it only supports HTTP.
+[24/Dec/2024 17:40:06] code 400, message Bad request version ('ð+¥ìü\x18²8qäçÓjw{²f:\x16\x9f\x00,JJ\x13\x01\x13\x02\x13\x03À,À+Ì©À0À/Ì¨À')
+[24/Dec/2024 17:40:06] You're accessing the development server over HTTPS, but it only supports HTTP.
+[24/Dec/2024 17:40:06] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00}\x01\x00\x00y\x03\x01b\x9aõöÐD\x8f4¹¦·¿')
+[24/Dec/2024 17:40:06] You're accessing the development server over HTTPS, but it only supports HTTP.
+[24/Dec/2024 17:40:33] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 17:40:33] "GET /static/assets/js/vendor-all.js HTTP/1.1" 200 37901
+[24/Dec/2024 17:40:33] "GET /static/assets/fonts/fontawesome.css HTTP/1.1" 200 66034
+[24/Dec/2024 17:40:33] "GET /static/assets/fonts/feather.css HTTP/1.1" 200 13222
+[24/Dec/2024 17:40:33] "GET /static/assets/fonts/material.css HTTP/1.1" 200 537
+[24/Dec/2024 17:40:33] "GET /static/assets/js/plugins/feather.min.js HTTP/1.1" 200 75779
+[24/Dec/2024 17:40:33] "GET /static/assets/js/plugins/bootstrap.min.js HTTP/1.1" 200 59219
+[24/Dec/2024 17:40:33] "GET /static/assets/js/pages/dashboard-sale.js HTTP/1.1" 200 6332
+[24/Dec/2024 17:40:33] "GET /static/assets/css/style.css HTTP/1.1" 200 326254
+[24/Dec/2024 17:40:33] "GET /static/assets/js/pcoded.js HTTP/1.1" 200 29145
+[24/Dec/2024 17:40:33] "GET /static/assets/fonts/inter/Inter-Regular.woff2?v=3.13 HTTP/1.1" 200 100368
+[24/Dec/2024 17:40:33] "GET /static/assets/fonts/inter/Inter-Medium.woff2?v=3.13 HTTP/1.1" 200 106484
+[24/Dec/2024 17:40:33] "GET /static/assets/fonts/inter/Inter-SemiBold.woff2?v=3.13 HTTP/1.1" 200 106916
+[24/Dec/2024 17:40:33] "GET /static/assets/fonts/fontawesome/fa-solid-900.woff2 HTTP/1.1" 200 75440
+[24/Dec/2024 17:40:33] "GET /static/assets/fonts/material/material.woff2 HTTP/1.1" 200 132812
+[24/Dec/2024 17:40:34] "GET /static/assets/fonts/inter/Inter-Bold.woff2?v=3.13 HTTP/1.1" 200 107144
+[24/Dec/2024 17:40:34] "GET /static/assets/js/plugins/apexcharts.min.js HTTP/1.1" 200 485805
+[24/Dec/2024 17:40:34] "GET /static/assets/fonts/fontawesome/fa-regular-400.woff2 HTTP/1.1" 200 13580
+[24/Dec/2024 17:40:34] "GET /static/assets/fonts/feather/feather.woff?t=1525787366991 HTTP/1.1" 200 29500
+[24/Dec/2024 17:40:34] "GET /static/assets/images/emotion.svg HTTP/1.1" 200 29488
+/root/projects/sentiment-analysis-thesis-2024/apps/sentiment_analysis/views.py:113: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'apps.models.ApplicationReview'> QuerySet.
+  paginator = Paginator(application_reviews, 10)
+[24/Dec/2024 17:40:41] "GET /sentiment-classification HTTP/1.1" 200 49463
+[24/Dec/2024 17:40:45] "GET /insight HTTP/1.1" 200 13433
+[24/Dec/2024 17:40:49,219] - Broken pipe from ('202.51.199.170', 7126)
+[24/Dec/2024 17:40:49,220] - Broken pipe from ('202.51.199.170', 11985)
+[24/Dec/2024 17:40:49,220] - Broken pipe from ('202.51.199.170', 3007)
+[24/Dec/2024 17:40:49,220] - Broken pipe from ('202.51.199.170', 7927)
+[24/Dec/2024 17:40:49,221] - Broken pipe from ('202.51.199.170', 6053)
+[24/Dec/2024 17:40:49,221] - Broken pipe from ('202.51.199.170', 3293)
+[24/Dec/2024 17:57:55,986] - Broken pipe from ('167.94.146.62', 41612)
+[24/Dec/2024 17:57:59] "GET / HTTP/1.1" 302 0
+[24/Dec/2024 17:58:05,587] - Broken pipe from ('167.94.146.62', 41684)
+[24/Dec/2024 17:58:09] "GET / HTTP/1.1" 302 0
+[24/Dec/2024 17:58:09] code 505, message Invalid HTTP version (2.0)
+[24/Dec/2024 17:58:09] "PRI * HTTP/2.0" 505 -
+[24/Dec/2024 17:58:14] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 17:58:14] "GET /static/assets/images/emotion.svg HTTP/1.1" 200 29488
+[24/Dec/2024 17:58:15] "GET /favicon.ico HTTP/1.1" 200 2335
+[24/Dec/2024 17:58:15] code 505, message Invalid HTTP version (2.0)
+[24/Dec/2024 17:58:15] "PRI * HTTP/2.0" 505 -
+[24/Dec/2024 17:58:16] "GET / HTTP/1.1" 302 0
+[24/Dec/2024 17:58:26,319] - Broken pipe from ('167.94.146.62', 33360)
+[24/Dec/2024 18:07:22] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/feather.css HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/fontawesome.css HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/css/style.css HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/material.css HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/js/vendor-all.js HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/js/plugins/bootstrap.min.js HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/js/pcoded.js HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/js/plugins/feather.min.js HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/js/pages/dashboard-sale.js HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/js/plugins/apexcharts.min.js HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/inter/Inter-SemiBold.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/inter/Inter-Regular.woff2?v=3.13 HTTP/1.1" 200 100368
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/inter/Inter-Bold.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/material/material.woff2 HTTP/1.1" 304 0
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/fontawesome/fa-solid-900.woff2 HTTP/1.1" 200 75440
+[24/Dec/2024 18:07:22] "GET /static/assets/fonts/inter/Inter-Medium.woff2?v=3.13 HTTP/1.1" 200 106484
+[24/Dec/2024 18:07:24] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 18:39:24] "GET / HTTP/1.1" 302 0
+Not Found: /example.com:443
+[24/Dec/2024 19:58:29] "CONNECT example.com:443 HTTP/1.1" 404 1973
+[24/Dec/2024 20:47:26] "GET / HTTP/1.1" 302 0
+[24/Dec/2024 20:47:28] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 21:21:07] "GET /static/assets/images/emotion.svg HTTP/1.1" 304 0
+[24/Dec/2024 21:21:11] "GET /insight HTTP/1.1" 200 13433
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/feather.css HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/material.css HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/fontawesome.css HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/js/plugins/feather.min.js HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/css/style.css HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/js/plugins/bootstrap.min.js HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/js/vendor-all.js HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/js/pcoded.js HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/js/plugins/apexcharts.min.js HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/inter/Inter-Regular.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/fontawesome/fa-solid-900.woff2 HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/inter/Inter-Medium.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/inter/Inter-SemiBold.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/material/material.woff2 HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/inter/Inter-Bold.woff2?v=3.13 HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/feather/feather.woff?t=1525787366991 HTTP/1.1" 304 0
+[24/Dec/2024 21:21:12] "GET /static/assets/fonts/fontawesome/fa-regular-400.woff2 HTTP/1.1" 304 0
+[24/Dec/2024 21:21:15] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 21:21:15] "GET /static/assets/js/pages/dashboard-sale.js HTTP/1.1" 304 0
+[24/Dec/2024 21:21:26] "GET /sentiment-classification HTTP/1.1" 200 49463
+[24/Dec/2024 22:22:46] "GET / HTTP/1.1" 302 0
+[24/Dec/2024 23:56:26,511] - Broken pipe from ('167.94.146.49', 37520)
+[24/Dec/2024 23:56:30] "GET / HTTP/1.1" 302 0
+[24/Dec/2024 23:56:36,346] - Broken pipe from ('167.94.146.49', 37556)
+[24/Dec/2024 23:56:40] "GET / HTTP/1.1" 302 0
+[24/Dec/2024 23:56:41] code 505, message Invalid HTTP version (2.0)
+[24/Dec/2024 23:56:41] "PRI * HTTP/2.0" 505 -
+[24/Dec/2024 23:56:44] "GET /crawling HTTP/1.1" 200 26940
+[24/Dec/2024 23:56:45] "GET /static/assets/images/emotion.svg HTTP/1.1" 200 29488
+[24/Dec/2024 23:56:47] "GET /favicon.ico HTTP/1.1" 200 2335
+[24/Dec/2024 23:56:47] code 505, message Invalid HTTP version (2.0)
+[24/Dec/2024 23:56:47] "PRI * HTTP/2.0" 505 -
+[24/Dec/2024 23:56:47] "GET / HTTP/1.1" 302 0
+[24/Dec/2024 23:56:57,736] - Broken pipe from ('167.94.146.49', 33494)
+Not Found: /example.com:443
+[25/Dec/2024 00:05:42] "CONNECT example.com:443 HTTP/1.1" 404 1973
+[25/Dec/2024 02:22:17] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 02:43:36] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 02:43:36] "GET /crawling HTTP/1.1" 200 26940
+[25/Dec/2024 02:43:47] code 400, message Bad request version ('À\x14À')
+[25/Dec/2024 02:43:47] You're accessing the development server over HTTPS, but it only supports HTTP.
+Not Found: /example.com:443
+[25/Dec/2024 03:43:50] "CONNECT example.com:443 HTTP/1.1" 404 1973
+[25/Dec/2024 03:53:56] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 04:05:27] "GET /sentiment-classification HTTP/1.1" 200 49463
+[25/Dec/2024 04:45:51] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 04:45:51] "GET /crawling HTTP/1.1" 200 26940
+[25/Dec/2024 05:01:49] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 05:53:39] "GET / HTTP/1.1" 302 0
+Not Found: /example.com:443
+[25/Dec/2024 07:43:48] "CONNECT example.com:443 HTTP/1.1" 404 1973
+[25/Dec/2024 09:04:08] "GET /crawling HTTP/1.1" 200 26940
+[25/Dec/2024 09:04:09] "GET /static/assets/fonts/feather.css HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/fonts/fontawesome.css HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/fonts/material.css HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/js/vendor-all.js HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/js/plugins/bootstrap.min.js HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/css/style.css HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/js/pages/dashboard-sale.js HTTP/1.1" 200 6332
+[25/Dec/2024 09:04:09] "GET /static/assets/js/plugins/feather.min.js HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/js/pcoded.js HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/js/plugins/apexcharts.min.js HTTP/1.1" 304 0
+[25/Dec/2024 09:04:09] "GET /static/assets/images/emotion.svg HTTP/1.1" 200 29488
+[25/Dec/2024 09:12:40] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 09:39:44] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 09:39:51] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 09:39:51] "GET /crawling HTTP/1.1" 200 26940
+[25/Dec/2024 09:40:01] "GET /favicon.ico HTTP/1.1" 200 2335
+Not Found: /http:/api.ipify.org/
+[25/Dec/2024 09:40:03] "GET http://api.ipify.org/?format=json HTTP/1.1" 404 1996
+Not Found: /www.shadowserver.org:443
+[25/Dec/2024 09:40:14] "CONNECT www.shadowserver.org:443 HTTP/1.1" 404 2005
+[25/Dec/2024 09:57:48] code 400, message Bad HTTP/0.9 request type ('\x00\x00\x00')
+[25/Dec/2024 09:57:48] "    c                           " 400 -
+[25/Dec/2024 10:02:14] "GET / HTTP/1.1" 302 0
+[25/Dec/2024 10:02:14] "GET /crawling HTTP/1.1" 200 26940
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/feather.css HTTP/1.1" 200 13222
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/material.css HTTP/1.1" 200 537
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/fontawesome.css HTTP/1.1" 200 66034
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/inter/Inter-Regular.woff2?v=3.13 HTTP/1.1" 200 100368
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/inter/Inter-Bold.woff2?v=3.13 HTTP/1.1" 304 0
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/inter/Inter-Medium.woff2?v=3.13 HTTP/1.1" 200 106484
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/fontawesome/fa-solid-900.woff2 HTTP/1.1" 200 75440
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/material/material.woff2 HTTP/1.1" 304 0
+[25/Dec/2024 10:02:15] "GET /static/assets/fonts/inter/Inter-SemiBold.woff2?v=3.13 HTTP/1.1" 200 106916

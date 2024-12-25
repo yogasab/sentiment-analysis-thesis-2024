@@ -18,6 +18,7 @@ from collections import Counter
 import string
 import re
 
+nltk.download('wordnet')
 nltk.download('punkt_tab')
 nltk.download('stopwords')
 class SentimentModel:
