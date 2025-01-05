@@ -113,7 +113,11 @@
 
 				{% if form.errors %}
 				<div class="alert alert-danger">
-					{{ form.errors }}
+					{% for field, errors in form.errors.items %}
+					{% for error in errors %}
+					<p><strong></strong>{{ error }}</p>
+					{% endfor %}
+					{% endfor %}
 				</div>
 				{% endif %}
 
