@@ -14,10 +14,13 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from .models import SentimentModel
 import json
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
     return HttpResponseRedirect("/crawling")
 
+@login_required
 def view_crawling(request):
     application_reviews = ApplicationReview.objects.all()
     paginator = Paginator(application_reviews, 10)
@@ -108,6 +111,7 @@ def search_sentiment_classification(request):
     }
     return render(request, 'home/sentiment_classification.html', context)
 
+@login_required
 def view_sentiment_classification(request):
     application_reviews = ApplicationReview.objects.all()
     paginator = Paginator(application_reviews, 10)
@@ -120,6 +124,7 @@ def view_sentiment_classification(request):
     }
     return render(request, 'home/sentiment_classification.html', context)
 
+@login_required
 def get_insight(request):
     sentiment_model = SentimentModel()
     application_reviews = ApplicationReview.get_review_summary()
@@ -176,5 +181,8 @@ def pages(request):
         return HttpResponse(html_template.render(context, request))
 
     except:
-        html_template = loader.get_template('home/page-500.html')
+        html_template = loader.get_template('home/page-404.html')
         return HttpResponse(html_template.render(context, request))
+
+def login(request):
+    return HttpResponseRedirect("/crawling")

@@ -1,67 +1,147 @@
 {% extends "layouts/base-fullscreen.html" %}
 
-{% block title %} Sign IN {% endblock %} 
+{% block title %} Login {% endblock %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<!-- Add custom styles for the login page -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+	/* Global Font Style */
+	body {
+		font-family: 'Poppins', sans-serif;
+		background-color: #f4f7fc;
+		margin: 0;
+		padding: 0;
+	}
+
+	/* Centering the auth-wrapper */
+	.auth-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 100vh;
+		padding: 0 20px;
+	}
+
+	.auth-content {
+		width: 100%;
+		max-width: 400px;
+		background-color: #ffffff;
+		padding: 30px;
+		border-radius: 10px;
+		box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+	}
+
+	h4 {
+		font-weight: 600;
+		font-size: 1.5rem;
+		color: #333;
+		margin-bottom: 20px;
+		text-align: center;
+	}
+
+	p {
+		font-size: 1rem;
+		color: #666;
+		text-align: center;
+		margin-bottom: 30px;
+	}
+
+	.alert-danger {
+		background-color: #f8d7da;
+		color: #721c24;
+		padding: 10px;
+		border-radius: 5px;
+		margin-bottom: 15px;
+	}
+
+	/* Form elements */
+	.input-group {
+		margin-bottom: 20px;
+	}
+
+	.form-control {
+		border-radius: 10px;
+		font-size: 1rem;
+		padding: 12px;
+		border: 1px solid #ddd;
+		box-shadow: none;
+		transition: border-color 0.3s;
+	}
+
+	.form-control:focus {
+		border-color: #007bff;
+	}
+
+	.btn-primary {
+		background-color: #007bff;
+		border-color: #007bff;
+		padding: 12px;
+		font-weight: 600;
+		border-radius: 10px;
+		font-size: 1rem;
+		width: 100%;
+		text-align: center;
+		transition: background-color 0.3s;
+	}
+
+	.btn-primary:hover {
+		background-color: #0056b3;
+		border-color: #0056b3;
+	}
+
+	label {
+		font-weight: 500;
+		color: #333;
+		margin-bottom: 10px;
+	}
+
+	/* Add spacing and improved layout */
+	.form-group {
+		margin-bottom: 25px;
+	}
+</style>
+{% endblock stylesheets %}
 
 {% block content %}
+<div class="auth-wrapper">
+	<div class="auth-content">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="mb-3">Sentiment Analysis - Login</h4>
+				<p>Please enter your credentials to access the system.</p>
 
-	<!-- [ auth-signin ] start -->
-	<div class="auth-wrapper">
-		<div class="auth-content">
-			<div class="card">
-				<div class="row align-items-center text-center">
-					<div class="col-md-12">
-						<div class="card-body">
-							<img src="/static/assets/images/logo-dark.svg" alt="" class="img-fluid mb-4">
-							<h4 class="mb-3 f-w-400">Sign IN</h4>
-							<p>
-								{% if msg %}
-									{{ msg | safe }}
-								{% else %}
-									Add your credentials
-								{% endif %} 
-							</p>
+				{% if form.errors %}
+				<div class="alert alert-danger">
+					{{ form.errors }}
+				</div>
+				{% endif %}
 
-							<form role="form" method="post" action="">
+				<form role="form" method="post" action="">
+					{% csrf_token %}
 
-								{% csrf_token %} 
-
-								<div class="input-group mb-3">
-									<span class="input-group-text"><i data-feather="user"></i></span>
-									{{ form.username }}
-								</div>
-								<div class="input-group mb-4">
-									<span class="input-group-text"><i data-feather="lock"></i></span>
-									{{ form.password }}
-								</div>
-								<div class="form-group text-start mt-2">
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-										<label class="form-check-label" for="flexCheckChecked">
-											Save credentials
-										</label>
-									</div>
-								</div>
-								
-								<br />
-								<button type="submit" name="login" class="btn btn-block btn-primary mb-4">Sign IN</button>
-							</form>
-
-							<p class="mb-0 text-muted">Don’t have an account? 
-								<a href="{% url 'register' %}" class="f-w-400">Sign UP</a>
-							</p>
-
+					<!-- Email Field -->
+					<div class="form-group">
+						<label for="{{ form.username.id_for_label }}">Email</label>
+						<div class="input-group">
+							{{ form.username }}
 						</div>
 					</div>
-				</div>
+
+					<!-- Password Field -->
+					<div class="form-group">
+						<label for="{{ form.password.id_for_label }}">Password</label>
+						<div class="input-group">
+							{{ form.password }}
+						</div>
+					</div>
+
+					<button type="submit" name="login" class="btn btn-primary mb-4">Login</button>
+				</form>
 			</div>
 		</div>
 	</div>
-	<!-- [ auth-signin ] end -->
-
+</div>
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
