@@ -44,37 +44,38 @@ class SentimentModel:
         my_df = sorted_df_crawling[['reviewId', 'userName', 'score', 'at', 'content']]
         return my_df
 
-    def preprocess_text(self, my_df: pd.DataFrame):
+    def preprocess_text(self, my_df: pd.DataFrame, batch_size: int = 10):
         processed_texts = []
-        content_eng_list = []  
+        content_eng_list = []
         print("Translating total of {} reviews...".format(len(my_df)))
-        for index, row in my_df.iterrows():
-            text = row['content']  
-            if not text or text.strip() == "":
-                raise ValueError("Input text cannot be empty")
-            text = text.replace(" g ", " gak ").replace(" y ", " ya ").replace("👍", " great ").replace("👎", " bad ")
-            text = emoji.demojize(text)
+        texts = my_df['content'].fillna("").tolist()  # Mengambil teks dari DataFrame
+        batches = [texts[i:i + batch_size] for i in range(0, len(texts), batch_size)]
+        for batch_index, batch in enumerate(batches):
+            batch = [text.replace(" g ", " gak ").replace(" y ", " ya ")
+                        .replace("👍", " great ").replace("👎", " bad ")
+                        for text in batch]
+            batch = [emoji.demojize(text) for text in batch]
             try:
-                translated = self.translator.translate(text)
-                if not translated:  
-                    raise ValueError("Translation returned empty result.")
+                translated_batch = self.translator.translate_batch(batch)
             except Exception as e:
-                print(f"Translation error: {e}")
-                translated = text  
-                
-            translated = translated.lower()
-            text = re.sub(r'[^\w\s]', '', translated)
-            text = re.sub(r'(?<=\.)', ' ', text)
-            text = text.replace("not ", "not_").replace("no ", "no_").replace("never ", "never_")\
-                       .replace("cant ", "can not_").replace("can't ", "can not_").replace("out alone", "out_alone").replace("couldnt ", "could not_").replace("couldn't ", "could not_").replace("can't ", "can not_")
-            content_eng_list.append(text)
-            tokens = word_tokenize(text)
-            filtered_words = [word for word in tokens if word not in self.stop_words]
-            lemmatized_words = [self.lemmatizer.lemmatize(word) for word in filtered_words]
-            processed_texts.append(' '.join(lemmatized_words))
-            print(f"Translated {index + 1}/{len(my_df)} reviews")
+                print(f"Batch translation error: {e}")
+                translated_batch = batch  # Jika gagal, gunakan teks asli
+            for text in translated_batch:
+                text = text.lower()
+                text = re.sub(r'[^\w\s]', '', text)
+                text = re.sub(r'(?<=\.)', ' ', text)
+                text = text.replace("not ", "not_").replace("no ", "no_").replace("never ", "never_")\
+                        .replace("cant ", "can not_").replace("can't ", "can not_")\
+                        .replace("out alone", "out_alone").replace("couldnt ", "could not_")\
+                        .replace("couldn't ", "could not_")
+                content_eng_list.append(text)
+                tokens = word_tokenize(text)
+                filtered_words = [word for word in tokens if word not in self.stop_words]
+                lemmatized_words = [self.lemmatizer.lemmatize(word) for word in filtered_words]
+                processed_texts.append(' '.join(lemmatized_words))
+            print(f"Processed batch {batch_index + 1}/{len(batches)}")
         my_df['content_eng'] = content_eng_list
-        return my_df, processed_texts 
+        return my_df, processed_texts
 
     def predict_sentiment(self, my_df: pd.DataFrame):
         my_df, processed_texts = self.preprocess_text(my_df)
